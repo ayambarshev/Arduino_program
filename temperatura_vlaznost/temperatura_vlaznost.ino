@@ -26,9 +26,8 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
+  pinMode(10,OUTPUT);
   Serial.begin(9600);
-  Serial.println("DHTxx test!");
-
   dht.begin();
 }
 
@@ -46,7 +45,7 @@ void loop() {
 
   // Check if any reads failed and exit early (to try again).
   if (isnan(h) || isnan(t) || isnan(f)) {
-    Serial.println("Failed to read from DHT sensor!");
+  
     return;
   }
 
@@ -68,4 +67,6 @@ void loop() {
   Serial.print(" *C ");
   Serial.print(hif);
   Serial.println(" *F");
+  if(t>28);
+  digitalWrite(10,1);
 }

@@ -18,7 +18,8 @@ void setup(void)
   // IC Default 9 bit
   // If you have troubles consider upping it 12.
   // Ups the delay giving the IC more time to process the temperature measurement
-  sensors.begin(); 
+  sensors.begin();
+  delay(1000); 
 }
 
 void loop(void)

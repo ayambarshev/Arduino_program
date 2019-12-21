@@ -25,9 +25,9 @@ void loop() {
   cm = (duration / 2 / 29.1);
   Serial.print(cm);
   Serial.print("до предмета");
-  if(cm<50){
+  if(cm<20){
     digitalWrite(10,1);
-    delay(1000);
+    delay(10);
     digitalWrite(10,0);
   }
   // Задержка между измерениями для корректной работы скеча
