@@ -1,35 +1,31 @@
 // URL: https://arduinomaster.ru/datchiki-arduino/ultrazvukovoj-dalnomer-hc-sr04/
-
+#include <NewPing.h>
 #define PIN_TRIG 12
 #define PIN_ECHO 11
-long duration, cm;
+#define MAX_DISTANCE 100 // Константа для определения максимального расстояния, которое мы будем считать корректным.
+// Создаем объект, методами которого будем затем пользоваться для получения расстояния.
+// В качестве параметров передаем номера пинов, к которым подключены выходы ECHO и TRIG датчика
+NewPing sonar(PIN_TRIG, PIN_ECHO, MAX_DISTANCE);
 void setup() {
-  // Инициализируем взаимодействие по последовательному порту
-  Serial.begin (9600);
-  //Определяем вводы и выводы
-  pinMode(PIN_TRIG, OUTPUT);
-  pinMode(PIN_ECHO, INPUT);
-  pinMode(10,OUTPUT);
+  pinMode(2,OUTPUT);
+  // Инициализируем взаимодействие по последовательному порту на скорости 9600
+  Serial.begin(9600);
 }
 void loop() {
-  // Сначала генерируем короткий импульс длительностью 2-5 микросекунд.
-  digitalWrite(PIN_TRIG, LOW);
-  delayMicroseconds(5);
-  digitalWrite(PIN_TRIG, HIGH);
-  // Выставив высокий уровень сигнала, ждем около 10 микросекунд. В этот момент датчик будет посылать сигналы с частотой 40 КГц.
-  delayMicroseconds(10);
-  digitalWrite(PIN_TRIG, LOW);
-  //  Время задержки акустического сигнала на эхолокаторе.
-  duration = pulseIn(PIN_ECHO, HIGH);
-  // Теперь осталось преобразовать время в расстояние
-  cm = (duration / 2 / 29.1);
-  Serial.print(cm);
-  Serial.print("до предмета");
-  if(cm<50){
-    digitalWrite(10,1);
-    delay(1000);
-    digitalWrite(10,0);
-  }
-  // Задержка между измерениями для корректной работы скеча
-  delay(0);
-}
+  // Стартовая задержка, необходимая для корректной работы.
+  delay(30);
+  // Получаем значение от датчика расстояния и сохраняем его в переменную
+  unsigned int distance = sonar.ping_cm();
+  // Печатаем расстояние в мониторе порта
+  Serial.print(distance);
+  Serial.println("см");
+ if(distance>50){
+   digitalWrite(2,LOW);
+ }
+ if(distance<50){
+   digitalWrite(2,HIGH);
+ }
+ delay(300); 
+ }
+
+ 
